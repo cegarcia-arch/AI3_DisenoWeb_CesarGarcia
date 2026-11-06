@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS db_sistema_web
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE db_sistema_web;
+
+CREATE TABLE IF NOT EXISTS productos (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(120) NOT NULL,
+  descripcion TEXT NULL,
+  precio DECIMAL(10, 2) NOT NULL,
+  cantidad INT UNSIGNED NOT NULL,
+  fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);

@@ -54,6 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$productos = [];
+$errorConsulta = '';
+try {
+    $conexion = conectarBaseDatos();
+    $productos = $conexion->query(
+        'SELECT id, nombre, descripcion, precio, cantidad, fecha_creacion
+         FROM productos ORDER BY id DESC'
+    )->fetchAll();
+} catch (RuntimeException | PDOException $error) {
+    error_log($error->getMessage());
+    $errorConsulta = 'No se pudieron cargar los productos. Inténtalo más tarde.';
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -94,6 +107,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <button type="submit">Guardar producto</button>
         </form>
+
+        <section aria-labelledby="titulo-lista">
+            <h2 id="titulo-lista">Productos registrados</h2>
+            <?php if ($errorConsulta !== ''): ?>
+                <p role="alert"><?= escapar($errorConsulta) ?></p>
+            <?php elseif ($productos === []): ?>
+                <p>Todavía no hay productos registrados.</p>
+            <?php else: ?>
+                <div class="tabla-contenedor">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Fecha de creación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($productos as $producto): ?>
+                                <tr>
+                                    <td><?= escapar((string) $producto['id']) ?></td>
+                                    <td><?= escapar((string) $producto['nombre']) ?></td>
+                                    <td><?= escapar((string) ($producto['descripcion'] ?? '')) ?></td>
+                                    <td>$<?= escapar((string) $producto['precio']) ?></td>
+                                    <td><?= escapar((string) $producto['cantidad']) ?></td>
+                                    <td><?= escapar((string) $producto['fecha_creacion']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </section>
     </main>
 </body>
 </html>

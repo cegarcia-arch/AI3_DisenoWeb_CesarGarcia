@@ -74,6 +74,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registro de productos</title>
+    <link rel="stylesheet" href="/estilos.css">
 </head>
 <body>
     <main>

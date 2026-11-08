@@ -5,7 +5,7 @@ require_once __DIR__ . '/conexion.php';
 
 function escapar(string $texto): string
 {
-    return htmlspecialchars($texto, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars($texto, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 $nombre = '';
@@ -20,14 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $precio = trim((string) ($_POST['precio'] ?? ''));
     $cantidad = trim((string) ($_POST['cantidad'] ?? ''));
 
-    if ($nombre === '' || strlen($nombre) > 120) {
+    if (!preg_match('/^.{1,120}$/us', $nombre)) {
         $errores[] = 'El nombre es obligatorio y debe tener como máximo 120 caracteres.';
     }
-    if (strlen($descripcion) > 500) {
+    if (!preg_match('/^.{0,500}$/us', $descripcion)) {
         $errores[] = 'La descripción debe tener como máximo 500 caracteres.';
     }
     if (!preg_match('/^\d+(\.\d{1,2})?$/', $precio) || (float) $precio > 99999999.99) {
-        $errores[] = 'El precio debe ser un número positivo con hasta dos decimales.';
+        $errores[] = 'El precio debe ser un número igual o mayor que cero con hasta dos decimales.';
     }
     if (!ctype_digit($cantidad) || (float) $cantidad > 4294967295) {
         $errores[] = 'La cantidad debe ser un número entero igual o mayor que cero.';

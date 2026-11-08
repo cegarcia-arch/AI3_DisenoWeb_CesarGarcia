@@ -94,16 +94,16 @@ try {
         <?php endif; ?>
 
         <form method="post" action="/">
-            <label for="nombre">Nombre</label>
+            <label for="nombre">Nombre (obligatorio)</label>
             <input id="nombre" name="nombre" type="text" maxlength="120" required value="<?= escapar($nombre) ?>">
 
             <label for="descripcion">Descripción (opcional)</label>
             <textarea id="descripcion" name="descripcion" maxlength="500"><?= escapar($descripcion) ?></textarea>
 
-            <label for="precio">Precio</label>
+            <label for="precio">Precio (obligatorio)</label>
             <input id="precio" name="precio" type="number" min="0" max="99999999.99" step="0.01" required value="<?= escapar($precio) ?>">
 
-            <label for="cantidad">Cantidad</label>
+            <label for="cantidad">Cantidad (obligatorio)</label>
             <input id="cantidad" name="cantidad" type="number" min="0" max="4294967295" step="1" required value="<?= escapar($cantidad) ?>">
 
             <button type="submit">Guardar producto</button>
